@@ -2,7 +2,16 @@ package org.parilin.dbgrep;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Represents search algorithm
+ */
 public interface Matcher {
 
-	void match(ByteBuffer source);
+    /**
+     * Made search in the chunk of data.
+     *
+     * @param chunk chunk of data
+     * @return result of the search
+     */
+    ChunkMatchResult match(ByteBuffer chunk);
 }

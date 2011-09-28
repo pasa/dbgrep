@@ -34,5 +34,4 @@ public class BoyerMooreHorspoolMatcherTest {
         Assert.assertArrayEquals(result.prefixMatches(), new int[] {3, 2, 1});
         Assert.assertArrayEquals(result.suffixMatches(), new int[] {1, 2, 3});
     }
-
 }

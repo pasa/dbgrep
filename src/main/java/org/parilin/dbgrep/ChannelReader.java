@@ -6,7 +6,6 @@ import java.nio.CharBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CoderResult;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -60,7 +59,7 @@ public class ChannelReader implements Reader {
         }
         int readBytes = channel.read(buffer);
         boolean endOfInput = readBytes == -1;
-        out.clear();
+        buffer.flip();
         decoder.decode(buffer, out, endOfInput);
         if (endOfInput) { // flush if channel finished
             decoder.flush(out);
@@ -75,34 +74,5 @@ public class ChannelReader implements Reader {
             channel.close();
             channel = null;
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        String test = "abc";
-        byte[] bytes = test.getBytes("UTF-16");
-        ByteBuffer bb = ByteBuffer.wrap(bytes);
-        CharsetDecoder dec = Charset.forName("UTF-16").newDecoder();
-        CharBuffer cb = CharBuffer.allocate(test.length());
-        System.out.println(bb.capacity());
-        bb.limit(5);
-        CoderResult result = dec.decode(bb, cb, false);
-        int lim = cb.limit();
-        cb.flip();
-        System.out.print("AAA");
-        System.out.print(cb);
-        System.out.println("AAA");
-        cb.position(cb.limit());
-        cb.limit(lim);
-        System.out.println(bb);
-        System.out.println(result);
-        int rem = bb.capacity() - bb.limit();
-        bb.compact();
-        bb.limit(rem);
-        System.out.println(bb);
-        dec.decode(bb, cb, true);
-        cb.clear();
-        System.out.print("AAA");
-        System.out.print(cb);
-        System.out.println("AAA");
     }
 }

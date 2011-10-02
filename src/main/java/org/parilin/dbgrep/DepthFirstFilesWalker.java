@@ -99,14 +99,14 @@ public class DepthFirstFilesWalker implements FilesWalker {
                 // ignore
             }
         }
-        if (!dirStack.isEmpty()) {
-            currDir = dirStack.pop();
-            currIter = iterStack.pop();
-            return true;
-        } else {
+        if (dirStack.isEmpty()) {
             currDir = null;
             currIter = null;
             return false;
+        } else {
+            currDir = dirStack.pop();
+            currIter = iterStack.pop();
+            return true;
         }
     }
 

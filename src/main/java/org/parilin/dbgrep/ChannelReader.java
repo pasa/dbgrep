@@ -69,7 +69,7 @@ public class ChannelReader implements Reader {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         if (channel != null) {
             channel.close();
             channel = null;

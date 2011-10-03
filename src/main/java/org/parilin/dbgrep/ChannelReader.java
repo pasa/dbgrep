@@ -17,8 +17,6 @@ import org.parilin.dbgrep.util.InputSupplier;
 @NotThreadSafe
 public class ChannelReader implements Reader {
 
-    public static final int DEFAULT_BUFFER_SIZE = 8192;
-
     private final InputSupplier<? extends ReadableByteChannel> in;
 
     private final CharsetDecoder decoder;
@@ -27,35 +25,21 @@ public class ChannelReader implements Reader {
 
     private ByteBuffer buffer;
 
-    private final int bufferSize;
-
-    public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, Charset charset) {
-        this(in, charset.newDecoder());
+    public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, Charset charset, ByteBuffer buffer) {
+        this(in, charset.newDecoder(), buffer);
     }
 
-    public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, CharsetDecoder decoder) {
-        this(in, decoder, DEFAULT_BUFFER_SIZE);
-    }
-
-    public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, Charset charset, int bufferSize) {
-        this(in, charset.newDecoder(), bufferSize);
-    }
-
-    public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, CharsetDecoder decoder, int bufferSize) {
+    public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, CharsetDecoder decoder, ByteBuffer buffer) {
         this.in = in;
         this.decoder = decoder;
-        this.bufferSize = bufferSize;
-    }
-
-    public int getBufferSize() {
-        return bufferSize;
+        this.buffer = buffer;
     }
 
     @Override
     public boolean read(CharBuffer out) throws IOException {
         if (channel == null) {
             channel = in.getInput();
-            buffer = ByteBuffer.allocateDirect(bufferSize);
+            buffer.clear();
         }
         int readBytes = channel.read(buffer);
         boolean endOfInput = readBytes == -1;

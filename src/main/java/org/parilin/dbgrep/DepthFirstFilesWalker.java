@@ -118,4 +118,20 @@ public class DepthFirstFilesWalker implements FilesWalker {
     private BasicFileAttributes attrs(Path path) throws IOException {
         return Files.getFileAttributeView(path, BasicFileAttributeView.class).readAttributes();
     }
+
+    @Override
+    public void close() throws IOException {
+        finished = true;
+        IOException lastException = null;
+        while (popDir()) {
+            try {
+                currDir.close();
+            } catch (IOException e) {
+                lastException = e;
+            }
+        }
+        if (lastException != null) {
+            throw lastException;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package org.parilin.dbgrep;
 
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -115,6 +116,16 @@ public class ConcurrentFilesWalker implements FilesWalker {
         while (i < counts) {
             precached.offer(POISON);
             i++;
+        }
+    }
+
+    @Override
+    public void close() throws IOException {
+        prefetchLock.lock();
+        try {
+            walker.close();
+        } finally {
+            prefetchLock.unlock();
         }
     }
 }

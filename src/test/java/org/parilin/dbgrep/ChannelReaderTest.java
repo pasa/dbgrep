@@ -23,10 +23,14 @@ public class ChannelReaderTest {
         StringBuilder sb = new StringBuilder();
         InputSupplier<ReadableByteChannel> in = newArrayChannelSupplier(bytes);
         try (ChannelReader reader = new ChannelReader(in, charset, buffer)) {
-            while (reader.read(cb)) {
+            for(;;) {
+                boolean contin = reader.read(cb);
                 cb.flip();
                 sb.append(cb);
                 cb.clear();
+                if(!contin) {
+                    break;
+                }
             }
         }
         Assert.assertEquals(text, sb.toString());

@@ -5,5 +5,5 @@ import java.nio.file.Path;
 
 public interface Grepper {
 
-    void grep(Path dir, Charset charset);
+    void grep(Path dir, Charset charset, ResultsCollector collector);
 }

@@ -1,5 +1,7 @@
 package org.parilin.dbgrep;
 
+import java.util.Arrays;
+
 /**
  * Match results for the chunk of data.
  */
@@ -43,4 +45,16 @@ public class ChunkMatchResult {
     public int[] prefixMatches() {
         return prefixMatches;
     }
+
+    public boolean isEmpty() {
+        return suffixMatches.length == 0 && perfectMatches.length == 0 && prefixMatches.length == 0;
+    }
+
+    @Override
+    public String toString() {
+        return "ChunkMatchResult [suffixMatches=" + Arrays.toString(suffixMatches) + ", perfectMatches="
+            + Arrays.toString(perfectMatches) + ", prefixMatches=" + Arrays.toString(prefixMatches) + "]";
+    }
+    
+    
 }

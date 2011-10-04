@@ -15,26 +15,26 @@ import org.parilin.dbgrep.util.InputSupplier;
 
 public class SequentialGrepper implements Grepper {
 
-    private final MatcherProvider matcherProvider;
+    private final MatcherFactory matcherFactory;
 
     private final int bufferSize;
 
-    public SequentialGrepper(MatcherProvider matcherProvider) {
-        this(matcherProvider, 8196);
+    public SequentialGrepper(MatcherFactory matcherFactory) {
+        this(matcherFactory, 8196);
     }
 
-    public SequentialGrepper(MatcherProvider matcherProvider, int bufferSize) {
+    public SequentialGrepper(MatcherFactory matcherFactory, int bufferSize) {
         if (bufferSize <= 0) {
             throw new IllegalArgumentException("Buffer size must be > 0");
         }
         this.bufferSize = bufferSize;
-        this.matcherProvider = requireNonNull(matcherProvider);
+        this.matcherFactory = requireNonNull(matcherFactory);
     }
 
     @Override
     public void grep(Path dir, char[] needle, Charset charset, ResultsCollector collector) {
         float averageCharsPerByte = charset.newDecoder().averageCharsPerByte();
-        Matcher matcher = matcherProvider.provide(needle);
+        Matcher matcher = matcherFactory.create(needle);
         FilesWalker walker = new DepthFirstFilesWalker(dir);
         ByteBuffer bb = ByteBuffer.allocateDirect(bufferSize);
         CharBuffer cb = CharBuffer.allocate((int) (bufferSize * averageCharsPerByte));

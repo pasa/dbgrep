@@ -15,10 +15,10 @@ import org.parilin.dbgrep.util.ImmutableCharIntMap;
 @Immutable
 public class BoyerMooreHorspoolMatcher implements Matcher {
 
-    public final static MatcherProvider PROVIDER = new MatcherProvider() {
+    public final static MatcherFactory FACTORY = new MatcherFactory() {
 
         @Override
-        public Matcher provide(char[] needle) {
+        public Matcher create(char[] needle) {
             return new BoyerMooreHorspoolMatcher(needle);
         }
     };

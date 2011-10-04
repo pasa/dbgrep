@@ -44,7 +44,6 @@ public class ChannelReader implements Reader {
             channel = in.getInput();
             buffer.clear();
         }
-        buffer.compact(); // copy buffer remain to the buffer start
         channel.read(buffer);
         boolean endOfInput = buffer.hasRemaining(); // buffer is not full (end of input)
         buffer.flip();
@@ -54,12 +53,13 @@ public class ChannelReader implements Reader {
         } else {
             cr = CoderResult.UNDERFLOW;
         }
-        if (cr.isUnderflow()) {
+        if (endOfInput && cr.isUnderflow()) {
             cr = decoder.flush(out);
+            if (cr.isUnderflow()) {
+                return false;
+            }
         }
-        if (cr.isUnderflow()) {
-            return false;
-        }
+        buffer.compact(); // copy buffer remain to the buffer start
         return true;
     }
 

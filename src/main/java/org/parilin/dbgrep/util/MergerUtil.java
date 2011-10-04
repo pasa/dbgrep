@@ -33,6 +33,7 @@ public final class MergerUtil {
                 result.add(totalChunkIndex + perfect);
             }
             lastPrefixMatches = match.prefixMatches();
+            totalChunkIndex += match.getChunkSize();
         }
         return longArray(result);
     }

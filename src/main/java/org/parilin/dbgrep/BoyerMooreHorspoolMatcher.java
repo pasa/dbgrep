@@ -15,6 +15,14 @@ import org.parilin.dbgrep.util.ImmutableCharIntMap;
 @Immutable
 public class BoyerMooreHorspoolMatcher implements Matcher {
 
+    public final static MatcherProvider PROVIDER = new MatcherProvider() {
+
+        @Override
+        public Matcher provide(char[] needle) {
+            return new BoyerMooreHorspoolMatcher(needle);
+        }
+    };
+
     private final char[] needle;
 
     private final ImmutableCharIntMap shifts;
@@ -31,6 +39,7 @@ public class BoyerMooreHorspoolMatcher implements Matcher {
     }
 
     public ChunkMatchResult match(CharBuffer haystack) {
+        int chunkSize = haystack.remaining();
         ArrayList<Integer> perfectMatches = new ArrayList<>();
         ArrayList<Integer> prefixMatches = new ArrayList<>();
         ArrayList<Integer> suffixMatches = new ArrayList<>();
@@ -80,6 +89,7 @@ public class BoyerMooreHorspoolMatcher implements Matcher {
                 }
             }
         }
-        return new ChunkMatchResult(intArray(suffixMatches), intArray(perfectMatches), intArray(prefixMatches));
+        return new ChunkMatchResult(chunkSize, intArray(suffixMatches), intArray(perfectMatches),
+                        intArray(prefixMatches));
     }
 }

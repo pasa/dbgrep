@@ -7,16 +7,23 @@ import java.util.Arrays;
  */
 public class ChunkMatchResult {
 
+    private final int chunkSize;
+
     private final int[] suffixMatches;
 
     private final int[] perfectMatches;
 
     private final int[] prefixMatches;
 
-    public ChunkMatchResult(int[] suffixMatches, int[] perfectMatches, int[] prefixMatches) {
+    public ChunkMatchResult(int chunkSize, int[] suffixMatches, int[] perfectMatches, int[] prefixMatches) {
+        this.chunkSize = chunkSize;
         this.suffixMatches = suffixMatches;
         this.perfectMatches = perfectMatches;
         this.prefixMatches = prefixMatches;
+    }
+
+    public int getChunkSize() {
+        return chunkSize;
     }
 
     /**
@@ -55,6 +62,5 @@ public class ChunkMatchResult {
         return "ChunkMatchResult [suffixMatches=" + Arrays.toString(suffixMatches) + ", perfectMatches="
             + Arrays.toString(perfectMatches) + ", prefixMatches=" + Arrays.toString(prefixMatches) + "]";
     }
-    
-    
+
 }

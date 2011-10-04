@@ -11,31 +11,23 @@ public class SequentialGrepperTest {
     @Test
     public void testGrep() {
         String pattern = "Free Software Foundation";
-        BoyerMooreHorspoolMatcher matcher = new BoyerMooreHorspoolMatcher(pattern.toCharArray());
-        SequentialGrepper grepper = new SequentialGrepper(matcher);
+        SequentialGrepper grepper = new SequentialGrepper(BoyerMooreHorspoolMatcher.PROVIDER);
         Charset charset = Charset.forName("UTF-8");
         Path dir = FileSystems.getDefault().getPath("test_data", "licenses", "gpl.txt");
-        grepper.grep(dir, charset, new ResultsCollector() {
+        grepper.grep(dir, pattern.toCharArray(), charset, new ResultsCollector() {
 
             @Override
-            public void insertResult(Path file, long chankIndex, ChunkMatchResult result, boolean isFinalChunk) {
-                if (!result.isEmpty()) {
-                    System.out.println(chankIndex);
-                    System.out.println(result);
-                }
-            }
-
-            @Override
-            public long[] getCollectedIndexes() {
+            public void matches(Path file, long[] matches) {
                 // TODO Auto-generated method stub
-                return null;
+
             }
 
             @Override
-            public void addException(Throwable t) {
+            public void exception(Throwable t) {
                 t.printStackTrace();
 
             }
+
         });
     }
 

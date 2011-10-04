@@ -37,7 +37,7 @@ public class ConcurrentFilesWalker implements FilesWalker {
     @GuardedBy("prefetchLock")
     private final FilesWalker walker;
 
-    public ConcurrentFilesWalker(int cacheSize, FilesWalker walker) {
+    public ConcurrentFilesWalker(FilesWalker walker) {
         this(walker, DEFAULT_CACHE_SIZE);
     }
 

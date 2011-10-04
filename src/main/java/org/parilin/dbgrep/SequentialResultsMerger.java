@@ -33,6 +33,7 @@ public class SequentialResultsMerger implements ResultsMerger {
         if (!isFinalChunk) {
             return null;
         }
+        results.remove(file); // all merged
         return mergeCompletedChunks(list, needle);
     }
 

@@ -35,7 +35,7 @@ public class SequentialGrepperTest {
     }
 
     @Test
-    public void testGrep() {
+    public void testGrep() throws InterruptedException {
         String pattern = "Free Software Foundation";
         SequentialGrepper grepper = new SequentialGrepper(BoyerMooreHorspoolMatcher.FACTORY);
         Charset charset = Charset.forName("UTF-8");

@@ -22,6 +22,11 @@ public class ParallelGrepper implements Grepper {
     private final int threads;
 
     public ParallelGrepper(int threads, MatcherFactory matcherFactory, int bufferSize) {
+        this.matcherFactory = Objects.requireNonNull(matcherFactory);
+        if (bufferSize <= 0) {
+            throw new IllegalArgumentException("Buffer size must be > 0");
+        }
+        this.bufferSize = bufferSize;
         if (threads <= 0) {
             throw new IllegalArgumentException("threads must be > 0");
         }
@@ -29,11 +34,6 @@ public class ParallelGrepper implements Grepper {
             executor = Executors.newFixedThreadPool(threads - 1); // one thread will be main
         }
         this.threads = threads;
-        this.matcherFactory = Objects.requireNonNull(matcherFactory);
-        if (bufferSize <= 0) {
-            throw new IllegalArgumentException("Buffer size must be > 0");
-        }
-        this.bufferSize = bufferSize;
     }
 
     @Override
@@ -52,9 +52,9 @@ public class ParallelGrepper implements Grepper {
             // last task executed in the current thread
             task.run();
             // main task is finished
-            if(Thread.interrupted()) {
-                //interrupt other
-                if(threads > 1) {
+            if (Thread.interrupted()) {
+                // interrupt other
+                if (threads > 1) {
                     executor.shutdownNow();
                 }
                 throw new InterruptedException();

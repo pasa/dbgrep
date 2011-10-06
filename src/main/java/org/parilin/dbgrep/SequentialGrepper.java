@@ -31,9 +31,10 @@ public class SequentialGrepper implements Grepper {
     public void grep(Path dir, char[] needle, Charset charset, ResultsCollector collector)
                     throws InterruptedException {
         Matcher matcher = matcherFactory.create(needle);
+        ResultsMerger merger = new SequentialResultsMerger(needle);
         try (FilesWalker walker = new DepthFirstFilesWalker(dir)) {
             SequentialGrepperTask task =
-                new SequentialGrepperTask(matcher, needle, walker, charset, collector, bufferSize);
+                new SequentialGrepperTask(matcher, walker, charset, collector, merger, bufferSize);
             task.run();
             if (Thread.interrupted()) {
                 throw new InterruptedException();

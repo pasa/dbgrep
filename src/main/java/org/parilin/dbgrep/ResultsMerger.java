@@ -16,10 +16,10 @@ public interface ResultsMerger {
      * case when collect all chunk results.
      *
      * @param file file
-     * @param chankIndex index of the chunk
+     * @param chunkIndex index of the chunk
      * @param result results of the match
      * @param isFinalChunk indicates that chunk is final.
      * @return
      */
-    long[] merge(Path file, long chankIndex, ChunkMatchResult result, boolean isFinalChunk);
+    long[] merge(Path file, long chunkIndex, ChunkMatchResult result, boolean isFinalChunk);
 }

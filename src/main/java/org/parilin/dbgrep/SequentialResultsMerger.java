@@ -27,7 +27,7 @@ public class SequentialResultsMerger implements ResultsMerger {
     }
 
     @Override
-    public long[] merge(Path file, long chankIndex, ChunkMatchResult result, boolean isFinalChunk) {
+    public long[] merge(Path file, long chunkIndex, ChunkMatchResult result, boolean isFinalChunk) {
         List<ChunkMatchResult> list = getList(file);
         list.add(result);
         if (!isFinalChunk) {

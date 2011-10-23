@@ -43,6 +43,10 @@ public class StagedGrepper implements Grepper {
 
     private final int matchStageSize;
 
+    public StagedGrepper(int fileReadStageSize, int matchStageSize, MatcherFactory matcherFactory) {
+        this(fileReadStageSize, matchStageSize, matcherFactory, 8196);
+    }
+
     public StagedGrepper(int fileReadStageSize, int matchStageSize, MatcherFactory matcherFactory, int bufferSize) {
         this.fileReadStageSize = fileReadStageSize;
         this.matchStageSize = matchStageSize;
@@ -120,7 +124,7 @@ public class StagedGrepper implements Grepper {
                         CharBuffer cb = CharBuffer.allocate((int) (bufferSize * decoder.averageCharsPerByte()));
                         boolean further = reader.read(cb);
                         cb.flip();
-                        matchQueue.offer(new MatchEvent(file, chunk, cb.asReadOnlyBuffer(), !further));
+                        matchQueue.offer(new MatchEvent(file, chunk++, cb.asReadOnlyBuffer(), !further));
                         if (!further) {
                             break;
                         }
@@ -159,7 +163,11 @@ public class StagedGrepper implements Grepper {
                     if (event == MatchEvent.POISON) {
                         // return poison to queue. this notifies other match tasks to finish the work
                         matchQueue.offer(MatchEvent.POISON);
-                        break;
+                        event = matchQueue.take(); // take it second time
+                        if(event == MatchEvent.POISON) { // poison is met twice. queue i
+                            matchQueue.offer(MatchEvent.POISON);
+                            break;
+                        }
                     }
                     ChunkMatchResult matchResult = matcher.match(event.chunk);
                     long[] matches = merger.merge(event.file, event.chunkIndex, matchResult, event.isFinalChunk);

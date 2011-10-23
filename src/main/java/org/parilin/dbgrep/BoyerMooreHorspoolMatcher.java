@@ -4,7 +4,6 @@ import static java.util.Arrays.copyOf;
 import static java.util.Objects.requireNonNull;
 import static org.parilin.dbgrep.util.ArrayUtil.intArray;
 
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 
 import javax.annotation.concurrent.Immutable;
@@ -38,12 +37,12 @@ public class BoyerMooreHorspoolMatcher implements Matcher {
         shifts = map.toImmutable();
     }
 
-    public ChunkMatchResult match(CharBuffer haystack) {
-        int chunkSize = haystack.remaining();
+    public ChunkMatchResult match(CharSequence haystack) {
+        int chunkSize = haystack.length();
         ArrayList<Integer> perfectMatches = new ArrayList<>();
         ArrayList<Integer> prefixMatches = new ArrayList<>();
         ArrayList<Integer> suffixMatches = new ArrayList<>();
-        int haystackLast = haystack.limit() - 1;
+        int haystackLast = haystack.length() - 1;
         int pivot = 0; // set pivot to 0 to search all needle suffixes in haystack prefix
         int needleLen = needle.length;
         int needleLast = needleLen - 1;
@@ -60,7 +59,7 @@ public class BoyerMooreHorspoolMatcher implements Matcher {
                 needleIndex = needleLast;
             }
             while (true) {
-                char haychar = haystack.get(haystackIndex);
+                char haychar = haystack.charAt(haystackIndex);
                 if (needle[needleIndex] == haychar) {
                     if (needleIndex == 0) {
                         if (pivotDiff > 0) { // needle prefix match

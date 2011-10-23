@@ -26,6 +26,10 @@ public class ParallelGrepper extends TaskableGrepper {
         }
     }
 
+    public ParallelGrepper(int threads, MatcherFactory matcherFactory) {
+        this(threads, matcherFactory, 8196);
+    }
+
     public ParallelGrepper(int threads, MatcherFactory matcherFactory, int bufferSize) {
         super(new ParallelTaskStrategy(), threads, matcherFactory, bufferSize);
     }

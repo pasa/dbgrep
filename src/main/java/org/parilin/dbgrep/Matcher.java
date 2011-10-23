@@ -1,6 +1,5 @@
 package org.parilin.dbgrep;
 
-import java.nio.CharBuffer;
 
 /**
  * Represents search algorithm
@@ -13,5 +12,5 @@ public interface Matcher {
      * @param chunk chunk of data
      * @return result of the search
      */
-    ChunkMatchResult match(CharBuffer chunk);
+    ChunkMatchResult match(CharSequence chunk);
 }

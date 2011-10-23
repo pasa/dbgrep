@@ -33,8 +33,9 @@ public class ConcurrentResultsMerger implements ResultsMerger {
 
     @Override
     public long[] merge(Path file, long chunkIndex, ChunkMatchResult result, boolean isFinalChunk) {
+        System.out.printf("%s, %s, %s%n", file, chunkIndex, isFinalChunk);
         FileEntry entry = entries.get(file);
-        if (entry != null) { // check and put to reduce false object creation
+        if (entry == null) { // check and put to reduce false object creation
             FileEntry newEntry = new FileEntry();
             entry = entries.putIfAbsent(file, newEntry);
             if (entry == null) {
@@ -79,7 +80,7 @@ public class ConcurrentResultsMerger implements ResultsMerger {
 
     static class FileEntry {
 
-        volatile long maxChunk = -1;
+        volatile long expectedChunks = -1;
 
         AtomicLong chunksCount = new AtomicLong(0);
 
@@ -91,10 +92,10 @@ public class ConcurrentResultsMerger implements ResultsMerger {
         boolean addChunk(Chunk chunk, boolean isFinal) {
             chunks.offer(chunk);
             if (isFinal) {
-                maxChunk = chunk.chunkIndex;
+                expectedChunks = chunk.chunkIndex + 1;
             }
             long collected = chunksCount.incrementAndGet();
-            return collected == maxChunk;
+            return collected == expectedChunks;
         }
     }
 }

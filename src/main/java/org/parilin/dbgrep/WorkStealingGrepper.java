@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.parilin.dbgrep.util.InputSupplier;
 
@@ -26,6 +27,8 @@ public class WorkStealingGrepper extends TaskableGrepper {
     static class WorkStealingGrepperTask implements Runnable {
 
         private static final int MAX_SEQUENTIAL_READS = 5;
+
+        private final AtomicInteger tasksCounter;
 
         private final Matcher matcher;
 
@@ -43,7 +46,7 @@ public class WorkStealingGrepper extends TaskableGrepper {
 
         public WorkStealingGrepperTask(Matcher matcher, FilesWalker walker, Charset charset,
                         ResultsCollector collector, ResultsMerger merger, int bufferSize,
-                        TransferQueue<MatchEvent> eventQueue) {
+                        TransferQueue<MatchEvent> eventQueue, AtomicInteger tasksCounter) {
             this.matcher = matcher;
             this.walker = walker;
             this.charset = charset;
@@ -51,17 +54,23 @@ public class WorkStealingGrepper extends TaskableGrepper {
             this.merger = merger;
             this.bufferSize = bufferSize;
             this.eventQueue = eventQueue;
+            this.tasksCounter = tasksCounter;
         }
 
         @Override
         public void run() {
+            tasksCounter.incrementAndGet();
             CharsetDecoder decoder = charset.newDecoder();
             ByteBuffer bb = ByteBuffer.allocateDirect(bufferSize);
-            Path file = null;
-            do {
-                if (!doMatchWork()) {
+            for (;;) {
+                if (doMatchWork()) {
                     // all the work have done
                     return;
+                }
+
+                Path file = walker.next();
+                if (file == null) {
+                    break; // no more files.
                 }
                 InputSupplier<FileChannel> in = newFileChannelSupplier(file, StandardOpenOption.READ);
                 int sequentialReadCount = 0;
@@ -76,11 +85,11 @@ public class WorkStealingGrepper extends TaskableGrepper {
                         CharBuffer cb = CharBuffer.allocate((int) (bufferSize * decoder.averageCharsPerByte()));
                         boolean further = reader.read(cb);
                         cb.flip();
-                        eventQueue.offer(new MatchEvent(file, chunk, cb.asReadOnlyBuffer(), !further));
+                        eventQueue.offer(new MatchEvent(file, chunk++, cb.asReadOnlyBuffer(), !further));
                         // do MAX_SEQUENTIAL_READS reads in a row to reduce contention on the event queue
                         if (sequentialReadCount == MAX_SEQUENTIAL_READS) {
                             sequentialReadCount = 0;
-                            if (!doMatchWork()) {
+                            if (doMatchWork()) { // do match work
                                 // all the work have done
                                 return;
                             }
@@ -95,9 +104,12 @@ public class WorkStealingGrepper extends TaskableGrepper {
                 } catch (IOException e) {
                     collector.exception(e);
                 }
-            } while ((file = walker.next()) != null);
-            // kill'em all
-            eventQueue.offer(MatchEvent.POISON);
+            }
+            int tasks = tasksCounter.decrementAndGet();
+            if (tasks == 0) { // this is a final task
+                // kill'em all
+                eventQueue.offer(MatchEvent.POISON);
+            }
             while (!doMatchWork()) {
                 // help other thread to process reminder of the queue
             }
@@ -121,7 +133,7 @@ public class WorkStealingGrepper extends TaskableGrepper {
                 }
                 ChunkMatchResult matchResult = matcher.match(event.chunk);
                 long[] matches = merger.merge(event.file, event.chunkIndex, matchResult, event.isFinalChunk);
-                if (matches != null) {
+                if (matches != null && matches.length != 0) {
                     collector.matches(event.file, matches);
                 }
             }
@@ -129,6 +141,8 @@ public class WorkStealingGrepper extends TaskableGrepper {
     }
 
     static class WorkStealingTaskStrategy implements GrepperTaskStrategy {
+
+        private final AtomicInteger tasksCounter = new AtomicInteger();
 
         private ResultsMerger merger;
 
@@ -147,13 +161,17 @@ public class WorkStealingGrepper extends TaskableGrepper {
 
         @Override
         public Runnable createTask(FilesWalker walker, Matcher matcher, int bufferSize) {
-            return new WorkStealingGrepperTask(matcher, walker, charset, collector, merger, bufferSize, eventQueue);
+            return new WorkStealingGrepperTask(matcher, walker, charset, collector, merger, bufferSize, eventQueue,
+                            tasksCounter);
         }
 
     }
 
-    public WorkStealingGrepper(GrepperTaskStrategy taskStrategy, int threads, MatcherFactory matcherFactory,
-                    int bufferSize) {
+    public WorkStealingGrepper(int threads, MatcherFactory matcherFactory) {
+        this(threads, matcherFactory, 8196);
+    }
+
+    public WorkStealingGrepper(int threads, MatcherFactory matcherFactory, int bufferSize) {
         super(new WorkStealingTaskStrategy(), threads, matcherFactory, bufferSize);
     }
 

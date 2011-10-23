@@ -57,7 +57,7 @@ public class SequentialGrepperTask implements Runnable {
                     cb.flip();
                     ChunkMatchResult matchResult = matcher.match(cb.asReadOnlyBuffer());
                     long[] matches = merger.merge(file, chunk++, matchResult, !further);
-                    if (matches != null) {
+                    if (matches != null && matches.length != 0) {
                         collector.matches(file, matches);
                     }
                     if (!further) {

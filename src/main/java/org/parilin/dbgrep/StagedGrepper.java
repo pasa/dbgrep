@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.parilin.dbgrep.util.ConcurrentUtil;
 import org.parilin.dbgrep.util.InputSupplier;
@@ -71,12 +72,13 @@ public class StagedGrepper implements Grepper {
         Matcher matcher = matcherFactory.create(needle);
         ResultsMerger merger = new ConcurrentResultsMerger(needle);
         List<Future<?>> futures = new ArrayList<>(fileReadStageSize + matchStageSize);
+        AtomicInteger readTasksCounter = new AtomicInteger(0); // need for correct tasks finalizing
         try (FilesWalker walker = new ConcurrentFilesWalker(new DepthFirstFilesWalker(dir))) {
             for (int i = 0; i < matchStageSize; i++) {
                 futures.add(matchStage.submit(new MatchTask(matcher, merger, collector)));
             }
             for (int i = 0; i < fileReadStageSize; i++) {
-                futures.add(fileReadStage.submit(new ReadTask(walker, charset, collector)));
+                futures.add(fileReadStage.submit(new ReadTask(walker, charset, collector, readTasksCounter)));
             }
             try {
                 ConcurrentUtil.waitAll(futures, collector);
@@ -95,20 +97,25 @@ public class StagedGrepper implements Grepper {
      */
     class ReadTask implements Runnable {
 
+        private final AtomicInteger readTaskCounter;
+
         private final FilesWalker walker;
 
         private final Charset charset;
 
         private final ResultsCollector collector;
 
-        public ReadTask(FilesWalker walker, Charset charset, ResultsCollector collector) {
+        public ReadTask(FilesWalker walker, Charset charset, ResultsCollector collector,
+                        AtomicInteger readTaskCounter) {
             this.walker = walker;
             this.charset = charset;
             this.collector = collector;
+            this.readTaskCounter = readTaskCounter;
         }
 
         @Override
         public void run() {
+            readTaskCounter.incrementAndGet();
             ByteBuffer bb = ByteBuffer.allocateDirect(bufferSize);
             Path file;
             while ((file = walker.next()) != null) {
@@ -133,8 +140,11 @@ public class StagedGrepper implements Grepper {
                     collector.exception(e);
                 }
             }
-            // finish them!!!
-            matchQueue.offer(MatchEvent.POISON);
+            int tasks = readTaskCounter.decrementAndGet();
+            if (tasks == 0) { // this is a final task
+                // finish them!!!
+                matchQueue.offer(MatchEvent.POISON);
+            }
         }
     }
 
@@ -163,15 +173,11 @@ public class StagedGrepper implements Grepper {
                     if (event == MatchEvent.POISON) {
                         // return poison to queue. this notifies other match tasks to finish the work
                         matchQueue.offer(MatchEvent.POISON);
-                        event = matchQueue.take(); // take it second time
-                        if(event == MatchEvent.POISON) { // poison is met twice. queue i
-                            matchQueue.offer(MatchEvent.POISON);
-                            break;
-                        }
+                        break;
                     }
                     ChunkMatchResult matchResult = matcher.match(event.chunk);
                     long[] matches = merger.merge(event.file, event.chunkIndex, matchResult, event.isFinalChunk);
-                    if (matches != null) {
+                    if (matches != null && matches.length != 0) {
                         collector.matches(event.file, matches);
                     }
                 } catch (InterruptedException e) {

@@ -60,7 +60,6 @@ public class WorkStealingGrepper extends TaskableGrepper {
         @Override
         public void run() {
             tasksCounter.incrementAndGet();
-            CharsetDecoder decoder = charset.newDecoder();
             ByteBuffer bb = ByteBuffer.allocateDirect(bufferSize);
             for (;;) {
                 if (doMatchWork()) {
@@ -74,6 +73,7 @@ public class WorkStealingGrepper extends TaskableGrepper {
                 }
                 InputSupplier<FileChannel> in = newFileChannelSupplier(file, StandardOpenOption.READ);
                 int sequentialReadCount = 0;
+                CharsetDecoder decoder = charset.newDecoder();
                 // do #MAX_SEQUENTIAL_READS reads and try doMatchWork again
                 try (ChannelReader reader = new ChannelReader(in, decoder, bb)) {
                     long chunk = 0;
@@ -99,7 +99,6 @@ public class WorkStealingGrepper extends TaskableGrepper {
                         if (!further) {
                             break;
                         }
-                        cb.clear();
                     }
                 } catch (IOException e) {
                     collector.exception(e);

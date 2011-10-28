@@ -53,7 +53,8 @@ public class SequentialGrepperTask implements Runnable {
                         // not reset interruption flag. interruption will be handled up on stack
                         return;
                     }
-                    boolean further = reader.read(cb);
+                    boolean further;
+                    further = reader.read(cb);
                     cb.flip();
                     ChunkMatchResult matchResult = matcher.match(cb.asReadOnlyBuffer());
                     long[] matches = merger.merge(file, chunk++, matchResult, !further);

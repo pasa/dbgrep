@@ -3,6 +3,9 @@ package org.parilin.dbgrep;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 
+/**
+ * Grepper that simply parallels sequential grep tasks.
+ */
 public class ParallelGrepper extends TaskableGrepper {
 
     static class ParallelTaskStrategy implements GrepperTaskStrategy {

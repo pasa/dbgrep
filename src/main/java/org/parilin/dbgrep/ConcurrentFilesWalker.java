@@ -57,14 +57,13 @@ public class ConcurrentFilesWalker implements FilesWalker {
         Path result = precached.poll();
         for (;;) {
             if (result == POISON) { // traverse is finished
+                precached.offer(POISON); // finish other
                 return null;
             }
             if (result != null) {
                 return result;
             } else {
                 if (tryPrefetchPaths()) {
-                    // iteration finished. spoil queue to notify other threads about it.
-                    spoil();
                     // try to take result again
                     result = precached.poll();
                 } else {
@@ -93,30 +92,18 @@ public class ConcurrentFilesWalker implements FilesWalker {
                 while (i < cacheSize) {
                     Path next = walker.next();
                     if (next == null) {
-                        // we not spoil here because we need unlock first
-                        return true;
-                    } else {
-                        precached.offer(next);
+                        // iteration finished. spoil queue to notify other threads about it.
+                        next = POISON;
                     }
+                    precached.offer(next);
                     i++;
                 }
             } finally {
                 prefetchLock.unlock();
             }
+            return true;
         }
         return false;
-    }
-
-    private void spoil() {
-        int counts = cacheSize - precached.size();
-        if (counts <= 0) {
-            return;
-        }
-        int i = 0;
-        while (i < counts) {
-            precached.offer(POISON);
-            i++;
-        }
     }
 
     @Override

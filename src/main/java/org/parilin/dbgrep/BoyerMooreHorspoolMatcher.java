@@ -39,6 +39,10 @@ public class BoyerMooreHorspoolMatcher implements Matcher {
 
     public ChunkMatchResult match(CharSequence haystack) {
         int chunkSize = haystack.length();
+        if (chunkSize == 0) {
+            int[] empty = new int[0];
+            return new ChunkMatchResult(0, empty, empty, empty);
+        }
         ArrayList<Integer> perfectMatches = new ArrayList<>();
         ArrayList<Integer> prefixMatches = new ArrayList<>();
         ArrayList<Integer> suffixMatches = new ArrayList<>();

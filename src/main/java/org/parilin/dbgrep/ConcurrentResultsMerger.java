@@ -33,7 +33,7 @@ public class ConcurrentResultsMerger implements ResultsMerger {
 
     @Override
     public long[] merge(Path file, long chunkIndex, ChunkMatchResult result, boolean isFinalChunk) {
-        System.out.printf("%s %s %s%n", file, chunkIndex, isFinalChunk);
+        // System.out.printf("%s %s %s%n", file, chunkIndex, isFinalChunk);
         FileEntry entry = entries.get(file);
         if (entry == null) { // check and put to reduce false object creation
             FileEntry newEntry = new FileEntry();

@@ -28,6 +28,8 @@ public class ChannelReader implements Reader {
 
     private ByteBuffer buffer;
 
+    boolean endOfInput = false;
+
     public ChannelReader(InputSupplier<? extends ReadableByteChannel> in, Charset charset, ByteBuffer buffer) {
         this(in, requireNonNull(charset).newDecoder(), buffer);
     }
@@ -44,11 +46,17 @@ public class ChannelReader implements Reader {
             channel = in.getInput();
             buffer.clear();
         }
-        channel.read(buffer);
-        boolean endOfInput = buffer.hasRemaining(); // buffer is not full (end of input)
+        int readBytes = channel.read(buffer);
+        if (readBytes > 0 && buffer.hasRemaining()) {
+            readBytes = channel.read(buffer);
+        }
+        boolean endOfInput = false; // buffer.hasRemaining(); // buffer is not full (end of input)
+        if (readBytes == -1) {
+            endOfInput = true;
+        }
         buffer.flip();
         CoderResult cr;
-        if (buffer.hasRemaining()) {
+        if (buffer.hasRemaining() || endOfInput) {
             cr = decoder.decode(buffer, out, endOfInput);
         } else {
             cr = CoderResult.UNDERFLOW;
@@ -56,7 +64,10 @@ public class ChannelReader implements Reader {
         if (endOfInput && cr.isUnderflow()) {
             cr = decoder.flush(out);
             if (cr.isUnderflow()) {
+                buffer.compact(); // copy buffer remain to the buffer start
                 return false;
+            } else {
+                System.err.println(buffer.hasRemaining());
             }
         }
         buffer.compact(); // copy buffer remain to the buffer start

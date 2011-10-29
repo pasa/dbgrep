@@ -190,4 +190,8 @@ public class StagedGrepper implements Grepper {
 
     }
 
+    @Override
+    public String toString() {
+        return "StagedGrepper [readThreads=" + fileReadStageSize + ", matchThreads=" + matchStageSize + "]";
+    }
 }

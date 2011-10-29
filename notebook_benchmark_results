@@ -1,0 +1,155 @@
+ 0% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=seq} 522919672.50 ns; σ=13303213.99 ns @ 10 trials
+ 1% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=seq} 523810567.50 ns; σ=22749411.64 ns @ 10 trials
+ 3% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=seq} 526763317.50 ns; σ=22643942.85 ns @ 10 trials
+ 4% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=seq} 522574378.00 ns; σ=21063938.73 ns @ 10 trials
+ 5% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=seq} 525533552.00 ns; σ=41916155.94 ns @ 10 trials
+ 7% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=par1} 540292411.50 ns; σ=11325092.35 ns @ 10 trials
+ 8% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=par1} 542219053.50 ns; σ=35128044.71 ns @ 10 trials
+ 9% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=par1} 550729631.50 ns; σ=24421854.23 ns @ 10 trials
+11% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=par1} 541477059.50 ns; σ=39550290.43 ns @ 10 trials
+12% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=par1} 541662138.50 ns; σ=18729733.92 ns @ 10 trials
+13% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=par2} 547402324.00 ns; σ=13212603.96 ns @ 10 trials
+15% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=par2} 542164855.75 ns; σ=15402653.86 ns @ 10 trials
+16% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=par2} 544095199.50 ns; σ=37573964.23 ns @ 10 trials
+17% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=par2} 542888273.50 ns; σ=49197208.70 ns @ 10 trials
+19% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=par2} 543246488.00 ns; σ=35383125.98 ns @ 10 trials
+20% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=par3} 549284057.50 ns; σ=25792804.03 ns @ 10 trials
+21% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=par3} 555395726.50 ns; σ=45152586.46 ns @ 10 trials
+23% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=par3} 566127818.00 ns; σ=41811908.48 ns @ 10 trials
+24% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=par3} 556395436.00 ns; σ=50738519.49 ns @ 10 trials
+25% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=par3} 555156172.25 ns; σ=22689452.79 ns @ 10 trials
+27% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=par4} 573712092.00 ns; σ=46274703.66 ns @ 10 trials
+28% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=par4} 556992020.00 ns; σ=36215096.57 ns @ 10 trials
+29% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=par4} 557482585.00 ns; σ=26122055.43 ns @ 10 trials
+31% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=par4} 563256573.50 ns; σ=15543753.25 ns @ 10 trials
+32% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=par4} 563311398.00 ns; σ=40054317.95 ns @ 10 trials
+33% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=staged11} 660428072.00 ns; σ=1567291116.02 ns @ 10 trials
+35% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=staged11} 660668743.00 ns; σ=1084912340.23 ns @ 10 trials
+36% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=staged11} 679313432.00 ns; σ=121894428.91 ns @ 10 trials
+37% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=staged11} 657458280.00 ns; σ=132734130.25 ns @ 10 trials
+39% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=staged11} 658744756.00 ns; σ=79583875.33 ns @ 10 trials
+40% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=staged12} 670627133.00 ns; σ=96420906.56 ns @ 10 trials
+41% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=staged12} 674662003.50 ns; σ=537831892.59 ns @ 10 trials
+43% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=staged12} 666306472.00 ns; σ=66921622.02 ns @ 10 trials
+44% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=staged12} 665586268.00 ns; σ=73916303.56 ns @ 10 trials
+45% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=staged12} 662366445.50 ns; σ=75801216.88 ns @ 10 trials
+47% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=staged21} 693358375.00 ns; σ=95664677.73 ns @ 10 trials
+48% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=staged21} 705526820.00 ns; σ=47701019.80 ns @ 10 trials
+49% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=staged21} 704598071.00 ns; σ=71449960.64 ns @ 10 trials
+51% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=staged21} 701936420.00 ns; σ=61068722.39 ns @ 10 trials
+52% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=staged21} 699656939.50 ns; σ=66829679.03 ns @ 10 trials
+53% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=staged22} 669372782.50 ns; σ=78920273.06 ns @ 10 trials
+55% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=staged22} 752032869.00 ns; σ=134053541.15 ns @ 10 trials
+56% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=staged22} 670893786.50 ns; σ=68155317.49 ns @ 10 trials
+57% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=staged22} 671093392.50 ns; σ=74611594.46 ns @ 10 trials
+59% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=staged22} 718792752.50 ns; σ=92594679.95 ns @ 10 trials
+60% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=staged13} 686583489.50 ns; σ=60794306.76 ns @ 10 trials
+61% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=staged13} 666109381.50 ns; σ=85058322.06 ns @ 10 trials
+63% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=staged13} 669731488.00 ns; σ=57767279.14 ns @ 10 trials
+64% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=staged13} 662682408.00 ns; σ=61715196.74 ns @ 10 trials
+65% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=staged13} 669790713.00 ns; σ=61213994.11 ns @ 10 trials
+67% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=staged31} 809910059.00 ns; σ=73210812.82 ns @ 10 trials
+68% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=staged31} 734577719.00 ns; σ=116898733.81 ns @ 10 trials
+69% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=staged31} 762993900.50 ns; σ=102848967.83 ns @ 10 trials
+71% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=staged31} 758610102.50 ns; σ=79188961.89 ns @ 10 trials
+72% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=staged31} 764572174.00 ns; σ=85097987.37 ns @ 10 trials
+73% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=steal1} 123438565.60 ns; σ=75226255.23 ns @ 10 trials
+75% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=steal1} 122839467.00 ns; σ=89975566.27 ns @ 10 trials
+76% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=steal1} 153363346.50 ns; σ=70212340.24 ns @ 10 trials
+77% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=steal1} 122806585.80 ns; σ=78182160.15 ns @ 10 trials
+79% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=steal1} 307427550.50 ns; σ=141684557.01 ns @ 10 trials
+80% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=steal2} 936037820.00 ns; σ=152221251.98 ns @ 10 trials
+81% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=steal2} 829289336.50 ns; σ=189333558.51 ns @ 10 trials
+83% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=steal2} 717780193.00 ns; σ=176322209.94 ns @ 10 trials
+84% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=steal2} 693828685.00 ns; σ=62788695.80 ns @ 10 trials
+85% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=steal2} 338873096.50 ns; σ=181692420.37 ns @ 10 trials
+87% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=steal3} 944747587.00 ns; σ=272535557.75 ns @ 10 trials
+88% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=steal3} 833673273.50 ns; σ=148394992.29 ns @ 10 trials
+89% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=steal3} 785124925.50 ns; σ=208443365.00 ns @ 10 trials
+91% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=steal3} 897136647.00 ns; σ=134838972.06 ns @ 10 trials
+92% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=steal3} 906036381.50 ns; σ=167701046.77 ns @ 10 trials
+93% Scenario{vm=java, trial=0, benchmark=Grepper, grepperType=steal4} 959059740.50 ns; σ=184147435.12 ns @ 10 trials
+95% Scenario{vm=java, trial=1, benchmark=Grepper, grepperType=steal4} 950999358.50 ns; σ=140988804.29 ns @ 10 trials
+96% Scenario{vm=java, trial=2, benchmark=Grepper, grepperType=steal4} 927376943.00 ns; σ=145346105.49 ns @ 10 trials
+97% Scenario{vm=java, trial=3, benchmark=Grepper, grepperType=steal4} 915714846.50 ns; σ=133169030.70 ns @ 10 trials
+99% Scenario{vm=java, trial=4, benchmark=Grepper, grepperType=steal4} 964009950.50 ns; σ=134685262.54 ns @ 10 trials
+
+grepperType trial  ms linear runtime
+        seq     0 523 ================
+        seq     1 524 ================
+        seq     2 527 ================
+        seq     3 523 ================
+        seq     4 526 ================
+       par1     0 540 ================
+       par1     1 542 ================
+       par1     2 551 =================
+       par1     3 541 ================
+       par1     4 542 ================
+       par2     0 547 =================
+       par2     1 542 ================
+       par2     2 544 ================
+       par2     3 543 ================
+       par2     4 543 ================
+       par3     0 549 =================
+       par3     1 555 =================
+       par3     2 566 =================
+       par3     3 556 =================
+       par3     4 555 =================
+       par4     0 574 =================
+       par4     1 557 =================
+       par4     2 557 =================
+       par4     3 563 =================
+       par4     4 563 =================
+   staged11     0 660 ====================
+   staged11     1 661 ====================
+   staged11     2 679 =====================
+   staged11     3 657 ====================
+   staged11     4 659 ====================
+   staged12     0 671 ====================
+   staged12     1 675 ====================
+   staged12     2 666 ====================
+   staged12     3 666 ====================
+   staged12     4 662 ====================
+   staged21     0 693 =====================
+   staged21     1 706 =====================
+   staged21     2 705 =====================
+   staged21     3 702 =====================
+   staged21     4 700 =====================
+   staged22     0 669 ====================
+   staged22     1 752 =======================
+   staged22     2 671 ====================
+   staged22     3 671 ====================
+   staged22     4 719 ======================
+   staged13     0 687 =====================
+   staged13     1 666 ====================
+   staged13     2 670 ====================
+   staged13     3 663 ====================
+   staged13     4 670 ====================
+   staged31     0 810 =========================
+   staged31     1 735 ======================
+   staged31     2 763 =======================
+   staged31     3 759 =======================
+   staged31     4 765 =======================
+     steal1     0 123 ===
+     steal1     1 123 ===
+     steal1     2 153 ====
+     steal1     3 123 ===
+     steal1     4 307 =========
+     steal2     0 936 =============================
+     steal2     1 829 =========================
+     steal2     2 718 ======================
+     steal2     3 694 =====================
+     steal2     4 339 ==========
+     steal3     0 945 =============================
+     steal3     1 834 =========================
+     steal3     2 785 ========================
+     steal3     3 897 ===========================
+     steal3     4 906 ============================
+     steal4     0 959 =============================
+     steal4     1 951 =============================
+     steal4     2 927 ============================
+     steal4     3 916 ============================
+     steal4     4 964 ==============================
+
+vm: java
+benchmark: Grepper

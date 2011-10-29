@@ -37,4 +37,8 @@ public class ParallelGrepper extends TaskableGrepper {
         super(new ParallelTaskStrategy(), threads, matcherFactory, bufferSize);
     }
 
+    @Override
+    public String toString() {
+        return "ParallelGrepper [threads=" + threads + "]";
+    }
 }

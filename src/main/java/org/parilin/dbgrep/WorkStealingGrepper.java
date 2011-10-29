@@ -174,4 +174,8 @@ public class WorkStealingGrepper extends TaskableGrepper {
         super(new WorkStealingTaskStrategy(), threads, matcherFactory, bufferSize);
     }
 
+    @Override
+    public String toString() {
+        return "WorkStealingGrepper [threads=" + threads + "]";
+    }
 }

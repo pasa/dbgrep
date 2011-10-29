@@ -43,4 +43,9 @@ public class SequentialGrepper implements Grepper {
             collector.exception(e);
         }
     }
+
+    @Override
+    public String toString() {
+        return "SequentialGrepper";
+    }
 }

@@ -21,9 +21,9 @@ public class TaskableGrepper implements Grepper {
 
     private ExecutorService executor;
 
-    private final int bufferSize;
+    protected final int bufferSize;
 
-    private final int threads;
+    protected final int threads;
 
     private final GrepperTaskStrategy taskStrategy;
 

@@ -14,6 +14,9 @@ import org.parilin.dbgrep.util.ImmutableCharIntMap;
 @Immutable
 public class BoyerMooreHorspoolMatcher implements Matcher {
 
+    /**
+     * Use factory to archive immutability of the matcher.
+     */
     public final static MatcherFactory FACTORY = new MatcherFactory() {
 
         @Override

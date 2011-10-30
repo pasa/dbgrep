@@ -4,16 +4,12 @@ import static org.parilin.dbgrep.util.InputSuppliers.newArrayChannelSupplier;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.parilin.dbgrep.util.InputSupplier;
-import org.parilin.dbgrep.util.InputSuppliers;
 
 public class ChannelReaderTest {
 

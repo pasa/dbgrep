@@ -83,12 +83,13 @@ public class StagedGrepper implements Grepper {
             try {
                 ConcurrentUtil.waitAll(futures, collector);
             } catch (InterruptedException e) {
-                matchStage.shutdownNow();
-                fileReadStage.shutdownNow();
                 throw e;
             }
         } catch (IOException e) {
             collector.exception(e);
+        } finally {
+            matchStage.shutdownNow();
+            fileReadStage.shutdownNow();
         }
     }
 

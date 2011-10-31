@@ -18,22 +18,16 @@ public class StagedGrepperBenchmark extends SimpleBenchmark {
         BenchmarkUtil.prepareTestData();
     }
 
-    @Param({"1", "2", "3"})
+    @Param({"1", "2", "3", "4"})
     int readthreads;
 
-    @Param({"1", "2", "3"})
+    @Param({"1", "2", "3", "4"})
     int matchThreads;
-
-    StagedGrepper grepper;
-
-    @Override
-    public void setUp() {
-        grepper = new StagedGrepper(readthreads, matchThreads, BoyerMooreHorspoolMatcher.FACTORY);
-    }
 
     public void timeStagedGrepper(int reps) throws InterruptedException {
         for (int i = 0; i < reps; i++) {
-            BenchmarkUtil.timeGrepper(grepper);
+            BenchmarkUtil.timeGrepper(new StagedGrepper(readthreads, matchThreads,
+                            BoyerMooreHorspoolMatcher.FACTORY));
         }
     }
 

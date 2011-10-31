@@ -68,6 +68,7 @@ public class WorkStealingGrepper extends TaskableGrepper {
                 }
 
                 Path file = walker.next();
+//                System.out.println(file);
                 if (file == null) {
                     break; // no more files.
                 }

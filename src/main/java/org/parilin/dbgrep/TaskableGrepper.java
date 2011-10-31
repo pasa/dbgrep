@@ -74,6 +74,10 @@ public class TaskableGrepper implements Grepper {
             }
         } catch (IOException e) {
             collector.exception(e);
+        } finally {
+            if (executor != null) {
+                executor.shutdownNow();
+            }
         }
     }
 }

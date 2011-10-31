@@ -23,21 +23,15 @@ public class WorkStealingGrepperBenchmark extends SimpleBenchmark {
 
     WorkStealingGrepper grepper;
 
-    @Override
-    public void setUp() {
-        grepper = new WorkStealingGrepper(threads, BoyerMooreHorspoolMatcher.FACTORY);
-    }
-
     public void timeWorkStealingGrepper(int reps) throws InterruptedException {
         for (int i = 0; i < reps; i++) {
-            BenchmarkUtil.timeGrepper(grepper);
+            BenchmarkUtil.timeGrepper(new WorkStealingGrepper(threads, BoyerMooreHorspoolMatcher.FACTORY));
         }
     }
 
     @Test
     public void runBenchmark() throws Exception {
         BenchmarkUtil.runBenchmark(WorkStealingGrepperBenchmark.class, 1);
-        // BenchmarkUtil.debugBenchmark(WorkStealingGrepperBenchmark.class);
     }
 
     @AfterClass

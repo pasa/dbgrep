@@ -27,7 +27,10 @@ public class DbGrep {
     private static final String WORK_STEALING_TYPE = "ws";
 
     private static final String TYPE_PARAM_DESCR = //
-        "--type type of the grepper. (Default : ws)\n"
+        "Finds string pattern in the files recursively.\n"
+            + "format: dbgrep [OPTIONS] PATTERN FILE\n"
+            + "OPTIONS:\n"
+            + "--type type of the grepper. (Default : ws)\n"
             + "   Acceptable values: \n"
             + "       seq - sequential (single threaded ordinary execution)\n"
             + "       par - parallel (multyple sequential grep tasks executed in parallel by file)\n"

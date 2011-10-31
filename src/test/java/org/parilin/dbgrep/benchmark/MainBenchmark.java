@@ -48,8 +48,8 @@ public class MainBenchmark extends SimpleBenchmark {
     }
 
     public void timeGrepper(int reps) throws InterruptedException {
-        Grepper grepper = createGrepper(grepperType);
         for (int i = 0; i < reps; i++) {
+            Grepper grepper = createGrepper(grepperType);
             BenchmarkUtil.timeGrepper(grepper);
         }
     }

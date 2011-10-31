@@ -21,16 +21,9 @@ public class ParallelGrepperBenchmark extends SimpleBenchmark {
     @Param({"1", "2", "3", "4", "5", "6"})
     int threads;
 
-    ParallelGrepper grepper;
-
-    @Override
-    public void setUp() {
-        grepper = new ParallelGrepper(threads, BoyerMooreHorspoolMatcher.FACTORY);
-    }
-
     public void timeParallelGrepper(int reps) throws InterruptedException {
         for (int i = 0; i < reps; i++) {
-            BenchmarkUtil.timeGrepper(grepper);
+            BenchmarkUtil.timeGrepper(new ParallelGrepper(threads, BoyerMooreHorspoolMatcher.FACTORY));
         }
     }
 
